@@ -68,15 +68,7 @@ export const createQuizWithTransaction = async (
       `Quiz with ID ${newQuiz.id} created successfully with questions and options.`
     )
 
-    return res.status(StatusCodes.CREATED).json(
-      ResponseData.success({
-        message: 'Quiz created successfully',
-        data: {
-          quizId: newQuiz.id,
-          totalQuestions: validatedData.items.length
-        }
-      })
-    )
+    return res.status(StatusCodes.CREATED).json(ResponseData.success({}))
   } catch (error) {
     await t.rollback()
     return handleServerError(res, error)

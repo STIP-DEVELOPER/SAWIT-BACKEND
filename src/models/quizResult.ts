@@ -1,14 +1,7 @@
-import { DataTypes, Model } from 'sequelize'
+import { DataTypes } from 'sequelize'
 import { sequelize } from '../database/config'
 import { BaseModelFields } from '../database/baseModelFields'
-
-interface QuizResultAttributes {
-  userId: number
-  quizId: number
-  score: number
-}
-
-interface QuizResultInstance extends Model<QuizResultAttributes>, QuizResultAttributes {}
+import { QuizResultInstance } from '../interfaces/quizResult/quizResult.dto'
 
 export const QuizResultModel = sequelize.define<QuizResultInstance>(
   'QuizResult',

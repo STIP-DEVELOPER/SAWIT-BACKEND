@@ -45,19 +45,18 @@ export const createQuizWithTransaction = async (
       { transaction: t }
     )
 
-    // 2. Buat Soal dan Opsi Jawaban
     for (const item of validatedData.items) {
       const newQuestion = await QuizQuestionModel.create(
         {
           questionText: item.questionText,
-          quizId: newQuiz.id
+          quizId: newQuiz.dataValues.id!
         },
         { transaction: t }
       )
 
       const optionsToCreate = item.options.map((opt) => ({
         ...opt,
-        questionId: newQuestion.id
+        questionId: newQuestion.id!
       }))
 
       await QuizOptionModel.bulkCreate(optionsToCreate, { transaction: t })

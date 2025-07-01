@@ -1,18 +1,4 @@
-import { IBaseModelFields } from '../database/baseModelFields'
-import { IPaginationRequest } from '../interfaces/paginationRequest.interface'
-
-export interface UserAttributes extends IBaseModelFields {
-  name: string
-  whatsappNumber: string
-  email: string
-  password: string
-  role: 'superAdmin' | 'admin' | 'user'
-}
-
-export type UserCreationAttributes = Omit<
-  UserAttributes,
-  'createdAt' | 'updatedAt' | 'id'
->
+import { IPaginationRequest } from '../shared/paginationRequest.interface'
 
 export interface IUserUpdateRequest {
   id: number

@@ -1,30 +1,30 @@
 import { type Response, type Request } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { ValidationError } from 'joi'
-import { ICategoryRemoveRequest } from '../../interfaces/category.dto'
+import { IQuizRemoveRequest } from '../../interfaces/quiz/quiz.request'
 import logger from '../../logs'
-import { CategoryModel } from '../../models/categoryModel'
-import { deleteCategorySchema } from '../../schemas/categorySchema'
+import { QuizModel } from '../../models/quizModel'
 import {
   validateRequest,
   handleValidationError,
   handleServerError
 } from '../../utilities/requestHandler'
 import { ResponseData } from '../../utilities/response'
+import { deleteQuizSchema } from '../../schemas/quizSchema'
 
-export const removeCategory = async (req: Request, res: Response): Promise<Response> => {
+export const removeQuiz = async (req: Request, res: Response): Promise<Response> => {
   const { error: validationError, value: queryParams } = validateRequest(
-    deleteCategorySchema,
+    deleteQuizSchema,
     req.params
   ) as {
     error: ValidationError
-    value: ICategoryRemoveRequest
+    value: IQuizRemoveRequest
   }
 
   if (validationError) return handleValidationError(res, validationError)
 
   try {
-    const result = await CategoryModel.findOne({
+    const result = await QuizModel.findOne({
       where: {
         deleted: false,
         id: queryParams.id
@@ -32,7 +32,7 @@ export const removeCategory = async (req: Request, res: Response): Promise<Respo
     })
 
     if (result == null) {
-      const message = `Category not found with ID: ${queryParams.id}`
+      const message = `Quiz not found with ID: ${queryParams.id}`
       logger.warn(message)
       return res.status(StatusCodes.NOT_FOUND).json(ResponseData.error({ message }))
     }
@@ -40,8 +40,8 @@ export const removeCategory = async (req: Request, res: Response): Promise<Respo
     result.deleted = true
     await result.save()
 
-    const response = ResponseData.success({ message: 'Category deleted successfully' })
-    logger.info('Category deleted successfully')
+    const response = ResponseData.success({ message: 'Quiz deleted successfully' })
+    logger.info('Quiz deleted successfully')
     return res.status(StatusCodes.OK).json(response)
   } catch (serverError) {
     return handleServerError(res, serverError)

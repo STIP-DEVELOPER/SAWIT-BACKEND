@@ -4,7 +4,7 @@ const options: Options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Welcome to Every Toko API Documentations',
+      title: 'Welcome to Eduapp Documentations',
       version: '1.0.0'
     },
     components: {
@@ -32,25 +32,11 @@ const options: Options = {
       description: 'User-related endpoints'
     },
     {
-      name: 'PRODUCTS',
-      description: 'Product-related endpoints'
-    },
-    {
-      name: 'STORES',
-      description: 'Store-related endpoints'
-    },
-    {
-      name: 'CATEGORIES',
-      description: 'Store-related endpoints'
+      name: 'Quiz',
+      description: 'quiz-related endpoints'
     }
   ],
-  apis: [
-    './src/modules/appChek/docs/*.ts',
-    './src/modules/user/docs/*.ts',
-    './src/modules/product/docs/*.ts',
-    './src/modules/store/docs/*.ts',
-    './src/modules/category/docs/*.ts'
-  ]
+  apis: ['./src/docs/*.ts']
 }
 
 const swaggerSpec = swaggerJsDoc(options)

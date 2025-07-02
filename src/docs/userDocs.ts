@@ -8,24 +8,24 @@
  *         name:
  *           type: string
  *           example: John Doe
- *         whatsappNumber:
+ *         email:
  *           type: string
- *           example: 6284455334434
+ *           example: test@mail.com
  *         password:
  *           type: string
- *           example: secret123
+ *           example: qwerty
  *         role:
  *           type: string
  *           example: user
  *     IUserLoginRequest:
  *       type: object
  *       properties:
- *         whatsappNumber:
+ *         email:
  *           type: string
- *           example: 6284455334434
+ *           example: test@mail.com
  *         password:
  *           type: string
- *           example: secret123
+ *           example: qwerty
  *     IUserUpdateRequest:
  *       type: object
  *       properties:
@@ -35,9 +35,9 @@
  *         name:
  *           type: string
  *           example: Updated Name
- *         whatsappNumber:
+ *         email:
  *           type: string
- *           example: updated@example.com
+ *           example: updated@mail.com
  *         password:
  *           type: string
  *           example: newpassword123

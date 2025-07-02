@@ -5,25 +5,32 @@ const { BaseModelFields } = require('../baseModel')
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, DataTypes) {
-    await queryInterface.createTable('category', {
+    await queryInterface.createTable('quiz_result', {
       ...BaseModelFields,
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      store_id: {
+      user_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
         references: {
-          model: 'store',
+          model: 'user',
           key: 'id'
         },
         onDelete: 'CASCADE'
+      },
+      quiz_id: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'quiz',
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
+      },
+      score: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0
       }
     })
   },
 
   async down(queryInterface, DataTypes) {
-    await queryInterface.dropTable('category')
+    await queryInterface.dropTable('quiz_result')
   }
 }

@@ -1,5 +1,5 @@
 import { type RequestHandler } from 'express'
-import { IRequest } from '../interfaces/request.interface'
+import { IRequest } from '../interfaces/shared/request.interface'
 
 export function allowRoles(...roles: string[]): RequestHandler {
   return (req: IRequest, res, next) => {

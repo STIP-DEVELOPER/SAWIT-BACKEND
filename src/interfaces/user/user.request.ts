@@ -18,7 +18,7 @@ export interface IUserFindDetailRequest {
 export interface IUserRemoveRequest extends IUserFindDetailRequest {}
 
 export interface IUserLoginRequest {
-  whatsappNumber: string
+  email: string
   password: string
 }
 

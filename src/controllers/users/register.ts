@@ -1,7 +1,7 @@
 import { type Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { ValidationError } from 'joi'
-import { IUserRegisterRequest } from '../../interfaces/user.dto'
+import { IUserRegisterRequest } from '../../interfaces/user/user.request'
 import logger from '../../logs'
 import { UserModel } from '../../models/user'
 import { userRegistrationSchema } from '../../schemas/user'
@@ -29,12 +29,12 @@ export const registerUser = async (req: any, res: Response): Promise<Response> =
       raw: true,
       where: {
         deleted: false,
-        whatsappNumber: validatedData.whatsappNumber
+        email: validatedData.email
       }
     })
 
     if (existingUser != null) {
-      const message = `Whatsapp number ${existingUser.whatsappNumber} is already registered. Please use another one.`
+      const message = `${existingUser.email} is already registered. Please use another one.`
       logger.info(`Registration attempt failed: ${message}`)
       return res.status(StatusCodes.BAD_REQUEST).json(ResponseData.error({ message }))
     }
@@ -46,7 +46,7 @@ export const registerUser = async (req: any, res: Response): Promise<Response> =
     }
 
     await UserModel.create(newUser)
-    logger.info(`User ${validatedData.whatsappNumber} registered successfully`)
+    logger.info(`User ${validatedData.email} registered successfully`)
 
     const response = ResponseData.success({ message: 'Registration successful' })
     return res.status(StatusCodes.CREATED).json(response)

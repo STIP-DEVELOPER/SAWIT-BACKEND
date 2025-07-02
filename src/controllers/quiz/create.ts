@@ -13,10 +13,7 @@ import { QuizModel } from '../../models/quizModel'
 import { QuizQuestionModel } from '../../models/quizQuestion'
 import { QuizOptionModel } from '../../models/quizOption'
 
-export const createQuizWithTransaction = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const createQuiz = async (req: Request, res: Response): Promise<Response> => {
   const { error: validationError, value: validatedData } = validateRequest(
     createQuizSchema,
     req.body

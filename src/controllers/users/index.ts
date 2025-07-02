@@ -5,11 +5,11 @@ import { registerUser } from './register'
 import { removeUser } from './remove'
 import { updateUser } from './update'
 
-export const UsersController = {
-  loginUser,
-  registerUser,
-  findAllUser,
-  findDetailUser,
-  updateUser,
-  removeUser
+export const usersController = {
+  login: loginUser,
+  register: registerUser,
+  findAll: findAllUser,
+  findDetail: findDetailUser,
+  update: updateUser,
+  remove: removeUser
 }

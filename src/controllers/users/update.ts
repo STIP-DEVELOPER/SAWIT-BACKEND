@@ -1,7 +1,7 @@
 import { type Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { ValidationError } from 'joi'
-import { IUserUpdateRequest } from '../../interfaces/user.dto'
+import { IUserUpdateRequest } from '../../interfaces/user/user.request'
 import logger from '../../logs'
 import { UserModel } from '../../models/user'
 import { updateUserSchema } from '../../schemas/user'

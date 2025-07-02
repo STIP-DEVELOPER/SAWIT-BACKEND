@@ -2,6 +2,7 @@ import { DataTypes } from 'sequelize'
 import { sequelize } from '../database/config'
 import { BaseModelFields } from '../database/baseModelFields'
 import { QuizInstance } from '../interfaces/quiz/quiz.dto'
+import { QuizQuestionModel } from './quizQuestion'
 
 export const QuizModel = sequelize.define<QuizInstance>(
   'Quiz',
@@ -22,3 +23,9 @@ export const QuizModel = sequelize.define<QuizInstance>(
     underscored: true
   }
 )
+
+QuizModel.hasMany(QuizQuestionModel, {
+  foreignKey: 'quizId',
+  as: 'questions',
+  onDelete: 'CASCADE'
+})

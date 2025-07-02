@@ -30,7 +30,7 @@ export const UserModel = sequelize.define<UserInstance>(
     }
   },
   {
-    tableName: 'users',
+    tableName: 'user',
     timestamps: true,
     paranoid: true,
     underscored: true,

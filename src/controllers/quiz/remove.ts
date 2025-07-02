@@ -31,14 +31,15 @@ export const removeQuiz = async (req: Request, res: Response): Promise<Response>
       }
     })
 
+    console.log('-----sds')
+
     if (result == null) {
       const message = `Quiz not found with ID: ${queryParams.id}`
       logger.warn(message)
       return res.status(StatusCodes.NOT_FOUND).json(ResponseData.error({ message }))
     }
 
-    result.deleted = true
-    await result.save()
+    await result.destroy()
 
     const response = ResponseData.success({ message: 'Quiz deleted successfully' })
     logger.info('Quiz deleted successfully')

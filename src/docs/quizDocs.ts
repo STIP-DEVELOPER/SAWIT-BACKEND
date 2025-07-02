@@ -31,7 +31,7 @@
  *         items:
  *           type: array
  *           items:
- *             $ref: '#/components/schemas/IQuizQuestionWithOptionalId'
+ *             $ref: '#/components/schemas/IQuizQuestion'
  *
  *     IQuizDeleteRequest:
  *       type: object
@@ -80,20 +80,6 @@
  *           items:
  *             $ref: '#/components/schemas/IQuizOption'
  *
- *     IQuizQuestionWithOptionalId:
- *       type: object
- *       properties:
- *         id:
- *           type: number
- *           example: 1
- *         questionText:
- *           type: string
- *           example: "Apa itu variabel?"
- *         options:
- *           type: array
- *           items:
- *             $ref: '#/components/schemas/IQuizOptionWithOptionalId'
- *
  *     IQuizOption:
  *       type: object
  *       properties:
@@ -103,17 +89,140 @@
  *         isCorrect:
  *           type: boolean
  *           example: true
- *
- *     IQuizOptionWithOptionalId:
- *       type: object
- *       properties:
- *         id:
- *           type: number
- *           example: 1
- *         optionText:
+ */
+
+/**
+ * @swagger
+ * /api/v1/quizzes:
+ *   get:
+ *     summary: Get all quizzes with optional filters
+ *     tags: [QUIZZES]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: size
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: search
+ *         schema:
  *           type: string
- *           example: "Penampung nilai"
- *         isCorrect:
+ *       - in: query
+ *         name: pagination
+ *         schema:
  *           type: boolean
- *           example: true
+ *       - in: query
+ *         name: startDate
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: endDate
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: List of quizzes
+ *       401:
+ *         description: Unauthorized
+ */
+
+/**
+ * @swagger
+ * /api/v1/quizzes/detail/{id}:
+ *   get:
+ *     summary: Get quiz detail by ID
+ *     tags: [QUIZZES]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: number
+ *     responses:
+ *       200:
+ *         description: Quiz detail
+ *       404:
+ *         description: Quiz not found
+ *       401:
+ *         description: Unauthorized
+ */
+
+/**
+ * @swagger
+ * /api/v1/quizzes:
+ *   post:
+ *     summary: Create a new quiz with questions and options
+ *     tags: [QUIZZES]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/IQuizCreateRequest'
+ *     responses:
+ *       201:
+ *         description: Quiz created successfully
+ *       400:
+ *         description: Invalid input
+ *       401:
+ *         description: Unauthorized
+ */
+
+/**
+ * @swagger
+ * /api/v1/quizzes:
+ *   patch:
+ *     summary: Update an existing quiz
+ *     tags: [QUIZZES]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/IQuizUpdateRequest'
+ *     responses:
+ *       200:
+ *         description: Quiz updated successfully
+ *       404:
+ *         description: Quiz not found
+ *       400:
+ *         description: Invalid input
+ *       401:
+ *         description: Unauthorized
+ */
+
+/**
+ * @swagger
+ * /api/v1/quizzes/{id}:
+ *   delete:
+ *     summary: Delete a quiz by ID
+ *     tags: [QUIZZES]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: number
+ *     responses:
+ *       200:
+ *         description: Quiz deleted successfully
+ *       404:
+ *         description: Quiz not found
+ *       400:
+ *         description: Invalid input
+ *       401:
+ *         description: Unauthorized
  */

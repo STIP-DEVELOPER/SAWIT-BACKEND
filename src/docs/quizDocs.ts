@@ -11,6 +11,9 @@
  *         description:
  *           type: string
  *           example: "Kuis tentang konsep dasar pemrograman"
+ *         category:
+ *           type: string
+ *           example: general
  *         items:
  *           type: array
  *           items:
@@ -124,6 +127,11 @@
  *         name: endDate
  *         schema:
  *           type: string
+ *       - in: query
+ *         name: category
+ *         schema:
+ *           type: sting
+ *           enum: [personal, general]
  *     responses:
  *       200:
  *         description: List of quizzes
@@ -145,6 +153,11 @@
  *         required: true
  *         schema:
  *           type: number
+ *       - in: query
+ *         name: category
+ *         schema:
+ *           type: string
+ *           enum: [personal, general]
  *     responses:
  *       200:
  *         description: Quiz detail

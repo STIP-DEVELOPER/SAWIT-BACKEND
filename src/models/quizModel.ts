@@ -14,6 +14,10 @@ export const QuizModel = sequelize.define<QuizInstance>(
     },
     description: {
       type: DataTypes.TEXT
+    },
+    category: {
+      type: DataTypes.ENUM('general', 'personal'),
+      allowNull: false
     }
   },
   {

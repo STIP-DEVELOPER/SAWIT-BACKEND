@@ -13,6 +13,10 @@ module.exports = {
       },
       description: {
         type: DataTypes.TEXT
+      },
+      category: {
+        type: DataTypes.ENUM('general', 'personal'),
+        allowNull: false
       }
     })
   },

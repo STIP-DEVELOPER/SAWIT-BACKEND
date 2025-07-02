@@ -5,15 +5,18 @@ export interface IQuizCreateRequest {
   jwtPayload: IJwtPayload
   title: string
   description?: string
+  category: 'personal' | 'general'
 }
 
 export interface IQuizFindAllRequest extends IPaginationRequest {
   jwtPayload: IJwtPayload
+  category: 'personal' | 'general'
 }
 
 export interface IQuizFindDetailRequest {
   jwtPayload: IJwtPayload
   id: number
+  category: 'personal' | 'general'
 }
 
 export interface IQuizRemoveRequest extends IQuizFindDetailRequest {

@@ -34,9 +34,9 @@ export const findAllQuiz = async (req: Request, res: Response): Promise<Response
       search,
       pagination,
       startDate,
-      endDate
+      endDate,
+      category
     } = queryParams
-
     const page = new Pagination(Number(queryPage) || 0, Number(querySize) || 10)
 
     const dateFilter =
@@ -52,7 +52,10 @@ export const findAllQuiz = async (req: Request, res: Response): Promise<Response
       where: {
         deleted: false,
         ...(search && {
-          name: { [Op.like]: `%${search}%` }
+          title: { [Op.like]: `%${search}%` }
+        }),
+        ...(category && {
+          category: category
         }),
         ...dateFilter
       },

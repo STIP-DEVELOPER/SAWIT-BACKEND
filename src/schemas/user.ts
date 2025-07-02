@@ -1,13 +1,13 @@
 import Joi from 'joi'
 
 export const userLoginSchema = Joi.object({
-  whatsappNumber: Joi.string().required(),
+  email: Joi.string().required(),
   password: Joi.string().required()
 })
 
 export const userRegistrationSchema = Joi.object({
   name: Joi.string().required(),
-  whatsappNumber: Joi.string().required(),
+  whatsappNumber: Joi.string().optional().allow(''),
   email: Joi.string().required(),
   role: Joi.string().valid('superAdmin', 'admin', 'user').required(),
   password: Joi.string().min(6).required()

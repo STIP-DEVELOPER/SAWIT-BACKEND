@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { ValidationError } from 'joi'
-import { IUserLoginRequest } from '../../interfaces/user.dto'
+import { IUserLoginRequest } from '../../interfaces/user/user.request'
 import logger from '../../logs'
 import { UserModel } from '../../models/user'
 import { userLoginSchema } from '../../schemas/user'
@@ -27,7 +27,7 @@ export const loginUser = async (req: Request, res: Response): Promise<Response> 
 
   try {
     const user = await UserModel.findOne({
-      where: { deleted: false, whatsappNumber: validatedData.whatsappNumber }
+      where: { deleted: false, email: validatedData.email }
     })
 
     if (user == null) {
@@ -44,8 +44,8 @@ export const loginUser = async (req: Request, res: Response): Promise<Response> 
       return res.status(StatusCodes.UNAUTHORIZED).json(ResponseData.error({ message }))
     }
 
-    const token = generateAccessToken({ userId: user.id, userRole: user.role })
-    logger.info(`User ${validatedData.whatsappNumber} logged in successfully`)
+    const token = generateAccessToken({ userId: user.id!, userRole: user.role })
+    logger.info(`User ${validatedData.email} logged in successfully`)
 
     const response = ResponseData.success({ data: { token } })
     return res.status(StatusCodes.OK).json(response)

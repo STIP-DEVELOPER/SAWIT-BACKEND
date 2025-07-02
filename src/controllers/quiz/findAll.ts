@@ -2,10 +2,9 @@ import { type Response, type Request } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { ValidationError } from 'joi'
 import { Op } from 'sequelize'
-import { ICategoryFindAllRequest } from '../../interfaces/category.dto'
+import { IQuizFindAllRequest } from '../../interfaces/quiz/quiz.request'
 import logger from '../../logs'
-import { CategoryModel } from '../../models/categoryModel'
-import { findAllStoreSchema } from '../../schemas/categorySchema'
+import { QuizModel } from '../../models/quizModel'
 import { Pagination } from '../../utilities/pagination'
 import {
   validateRequest,
@@ -13,14 +12,17 @@ import {
   handleServerError
 } from '../../utilities/requestHandler'
 import { ResponseData } from '../../utilities/response'
+import { findAllQuizSchema } from '../../schemas/quizSchema'
+import { QuizQuestionModel } from '../../models/quizQuestion'
+import { QuizOptionModel } from '../../models/quizOption'
 
-export const findAllCategory = async (req: Request, res: Response): Promise<Response> => {
+export const findAllQuiz = async (req: Request, res: Response): Promise<Response> => {
   const { error: validationError, value: queryParams } = validateRequest(
-    findAllStoreSchema,
+    findAllQuizSchema,
     req.query
   ) as {
     error: ValidationError
-    value: ICategoryFindAllRequest
+    value: IQuizFindAllRequest
   }
 
   if (validationError) return handleValidationError(res, validationError)
@@ -46,7 +48,7 @@ export const findAllCategory = async (req: Request, res: Response): Promise<Resp
           }
         : {}
 
-    const result = await CategoryModel.findAndCountAll({
+    const result = await QuizModel.findAndCountAll({
       where: {
         deleted: false,
         ...(search && {
@@ -54,6 +56,20 @@ export const findAllCategory = async (req: Request, res: Response): Promise<Resp
         }),
         ...dateFilter
       },
+      include: [
+        {
+          model: QuizQuestionModel,
+          as: 'questions',
+          attributes: ['questionText', 'id', 'quizId'],
+          include: [
+            {
+              model: QuizOptionModel,
+              as: 'options',
+              attributes: ['optionText', 'id', 'questionId', 'isCorrect']
+            }
+          ]
+        }
+      ],
       order: [['id', 'desc']],
       ...(pagination === true && {
         limit: page.limit,
@@ -64,7 +80,7 @@ export const findAllCategory = async (req: Request, res: Response): Promise<Resp
     const response = ResponseData.success({ data: result })
     response.data = page.formatData(result)
 
-    logger.info('Cagtegory retrieved successfully')
+    logger.info('Quiz retrieved successfully')
     return res.status(StatusCodes.OK).json(response)
   } catch (serverError) {
     return handleServerError(res, serverError)

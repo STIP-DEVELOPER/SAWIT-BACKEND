@@ -1,11 +1,7 @@
-import { DataTypes, Model } from 'sequelize'
-import { UserAttributes, UserCreationAttributes } from '../interfaces/user.dto'
+import { DataTypes } from 'sequelize'
 import { BaseModelFields } from '../database/baseModelFields'
 import { sequelize } from '../database/config'
-
-export interface UserInstance
-  extends Model<UserAttributes, UserCreationAttributes>,
-    UserAttributes {}
+import { UserInstance } from '../interfaces/user/user.dto'
 
 export const UserModel = sequelize.define<UserInstance>(
   'User',
@@ -34,7 +30,7 @@ export const UserModel = sequelize.define<UserInstance>(
     }
   },
   {
-    tableName: 'users',
+    tableName: 'user',
     timestamps: true,
     paranoid: true,
     underscored: true,

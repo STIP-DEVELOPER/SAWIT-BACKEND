@@ -1,7 +1,7 @@
 import { type Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { ValidationError } from 'joi'
-import { IUserRemoveRequest } from '../../interfaces/user.dto'
+import { IUserRemoveRequest } from '../../interfaces/user/user.request'
 import logger from '../../logs'
 import { UserModel } from '../../models/user'
 import { findDetailUserSchema } from '../../schemas/user'

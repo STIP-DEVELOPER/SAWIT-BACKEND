@@ -13,10 +13,7 @@ import { QuizModel } from '../../models/quizModel'
 import { QuizQuestionModel } from '../../models/quizQuestion'
 import { QuizOptionModel } from '../../models/quizOption'
 
-export const createQuizWithTransaction = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const createQuiz = async (req: Request, res: Response): Promise<Response> => {
   const { error: validationError, value: validatedData } = validateRequest(
     createQuizSchema,
     req.body
@@ -45,19 +42,18 @@ export const createQuizWithTransaction = async (
       { transaction: t }
     )
 
-    // 2. Buat Soal dan Opsi Jawaban
     for (const item of validatedData.items) {
       const newQuestion = await QuizQuestionModel.create(
         {
           questionText: item.questionText,
-          quizId: newQuiz.id
+          quizId: newQuiz.dataValues.id!
         },
         { transaction: t }
       )
 
       const optionsToCreate = item.options.map((opt) => ({
         ...opt,
-        questionId: newQuestion.id
+        questionId: newQuestion.id!
       }))
 
       await QuizOptionModel.bulkCreate(optionsToCreate, { transaction: t })
@@ -69,15 +65,7 @@ export const createQuizWithTransaction = async (
       `Quiz with ID ${newQuiz.id} created successfully with questions and options.`
     )
 
-    return res.status(StatusCodes.CREATED).json(
-      ResponseData.success({
-        message: 'Quiz created successfully',
-        data: {
-          quizId: newQuiz.id,
-          totalQuestions: validatedData.items.length
-        }
-      })
-    )
+    return res.status(StatusCodes.CREATED).json(ResponseData.success({}))
   } catch (error) {
     await t.rollback()
     return handleServerError(res, error)

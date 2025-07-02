@@ -1,7 +1,7 @@
 import { type Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
-import { Op, ValidationError } from 'sequelize'
-import { IUserFindAllRequest } from '../../interfaces/user.dto'
+import { Op } from 'sequelize'
+import { IUserFindAllRequest } from '../../interfaces/user/user.request'
 import logger from '../../logs'
 import { UserModel } from '../../models/user'
 import { findAllUsersSchema } from '../../schemas/user'
@@ -12,6 +12,7 @@ import {
   handleServerError
 } from '../../utilities/requestHandler'
 import { ResponseData } from '../../utilities/response'
+import { ValidationError } from 'joi'
 
 export const findAllUser = async (req: any, res: Response): Promise<Response> => {
   const { error: validationError, value: queryParams } = validateRequest(
@@ -32,19 +33,12 @@ export const findAllUser = async (req: any, res: Response): Promise<Response> =>
     const result = await UserModel.findAndCountAll({
       where: {
         deleted: false,
+        // userId: { [Op.not]: req.body?.jwtPayload?.userId },
         ...(Boolean(search) && {
           [Op.or]: [{ name: { [Op.like]: `%${search}%` } }]
         })
       },
-      attributes: [
-        'id',
-        'whatsappNumber',
-        'name',
-        'email',
-        'role',
-        'createdAt',
-        'updatedAt'
-      ],
+      attributes: ['id', 'name', 'email', 'role', 'createdAt', 'updatedAt'],
       order: [['id', 'desc']],
       ...(pagination === true && {
         limit: page.limit,

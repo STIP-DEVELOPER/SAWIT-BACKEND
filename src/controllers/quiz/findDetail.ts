@@ -17,7 +17,7 @@ import { QuizQuestionModel } from '../../models/quizQuestion'
 export const findDetailQuiz = async (req: Request, res: Response): Promise<Response> => {
   const { error: validationError, value: queryParams } = validateRequest(
     findDetailQuizSchema,
-    req.params
+    { ...req.params, ...req.query }
   ) as {
     error: ValidationError
     value: IQuizFindDetailRequest

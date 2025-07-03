@@ -19,9 +19,14 @@ export const findAllQuizResult = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
+  const requestPayload = {
+    ...req.query,
+    ...req.body
+  }
+
   const { error: validationError, value: queryParams } = validateRequest(
     findAllQuizResultSchema,
-    req.query
+    requestPayload
   ) as {
     error: ValidationError
     value: IQuizResultFindAllRequest
@@ -36,7 +41,8 @@ export const findAllQuizResult = async (
       search,
       pagination,
       startDate,
-      endDate
+      endDate,
+      jwtPayload
     } = queryParams
 
     const page = new Pagination(Number(queryPage) || 0, Number(querySize) || 10)
@@ -53,10 +59,12 @@ export const findAllQuizResult = async (
     const result = await QuizResultModel.findAndCountAll({
       where: {
         deleted: false,
+        ...(jwtPayload.userRole === 'user' && {
+          userId: jwtPayload.userId
+        }),
         ...(search && {
           title: { [Op.like]: `%${search}%` }
         }),
-
         ...dateFilter
       },
       include: [

@@ -4,14 +4,14 @@ import { jwtPayloadSchema } from './jwtPayloadSchema'
 export const createQuizResultSchema = Joi.object({
   jwtPayload: jwtPayloadSchema,
   quizId: Joi.number().integer().positive().required(),
-  score: Joi.number().integer().positive().required()
+  score: Joi.number().integer().optional()
 })
 
 export const updateQuizResultSchema = Joi.object({
   jwtPayload: jwtPayloadSchema,
   id: Joi.number().integer().positive().required(),
   quizId: Joi.number().integer().positive().optional(),
-  score: Joi.number().integer().positive().optional()
+  score: Joi.number().integer().optional()
 })
 
 export const deleteQuizResultSchema = Joi.object({

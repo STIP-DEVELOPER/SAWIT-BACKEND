@@ -2,6 +2,7 @@ import { DataTypes } from 'sequelize'
 import { sequelize } from '../database/config'
 import { BaseModelFields } from '../database/baseModelFields'
 import { QuizResultInstance } from '../interfaces/quizResult/quizResult.dto'
+import { QuizModel } from './quizModel'
 
 export const QuizResultModel = sequelize.define<QuizResultInstance>(
   'QuizResult',
@@ -35,3 +36,8 @@ export const QuizResultModel = sequelize.define<QuizResultInstance>(
     underscored: true
   }
 )
+
+QuizResultModel.belongsTo(QuizModel, {
+  foreignKey: 'quizId',
+  as: 'quiz'
+})

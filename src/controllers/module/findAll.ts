@@ -10,21 +10,17 @@ import {
   handleServerError
 } from '../../utilities/requestHandler'
 import { ResponseData } from '../../utilities/response'
-import { findAllQuizResultSchema } from '../../schemas/quizResultSchema'
-import { IQuizResultFindAllRequest } from '../../interfaces/quizResult/quizResult.request'
-import { QuizResultModel } from '../../models/quizResult'
-import { QuizModel } from '../../models/quizModel'
+import { findAllModuleSchema } from '../../schemas/moduleSchema'
+import { IModuleFindAllRequest } from '../../interfaces/module/module.request'
+import { ModuleModel } from '../../models/moduleModel'
 
-export const findAllQuizResult = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const findAllModule = async (req: Request, res: Response): Promise<Response> => {
   const { error: validationError, value: queryParams } = validateRequest(
-    findAllQuizResultSchema,
+    findAllModuleSchema,
     req.query
   ) as {
     error: ValidationError
-    value: IQuizResultFindAllRequest
+    value: IModuleFindAllRequest
   }
 
   if (validationError) return handleValidationError(res, validationError)
@@ -50,7 +46,7 @@ export const findAllQuizResult = async (
           }
         : {}
 
-    const result = await QuizResultModel.findAndCountAll({
+    const result = await ModuleModel.findAndCountAll({
       where: {
         deleted: false,
         ...(search && {
@@ -59,14 +55,6 @@ export const findAllQuizResult = async (
 
         ...dateFilter
       },
-      include: [
-        {
-          model: QuizModel,
-          as: 'quiz',
-          attributes: ['id', 'title', 'description', 'category']
-        }
-      ],
-      attributes: ['id', 'quizId', 'userId', 'score'],
       order: [['id', 'desc']],
       ...(pagination === true && {
         limit: page.limit,
@@ -75,7 +63,7 @@ export const findAllQuizResult = async (
     })
 
     const response = ResponseData.success({ data: result })
-    logger.info('Quiz Result retrieved successfully')
+    logger.info('Module Result retrieved successfully')
 
     response.data = page.formatData(result)
 

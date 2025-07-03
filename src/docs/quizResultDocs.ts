@@ -114,7 +114,7 @@
 
 /**
  * @swagger
- * /api/v1/quizzes/results/{id}:
+ * /api/v1/quizzes/results/detail/{id}:
  *   get:
  *     summary: Get detail quiz result by ID
  *     tags: [QUIZ RESULTS]

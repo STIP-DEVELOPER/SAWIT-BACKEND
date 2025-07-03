@@ -8,29 +8,25 @@ import {
   validateRequest,
   handleServerError
 } from '../../utilities/requestHandler'
-import { IQuizResultCreateRequest } from '../../interfaces/quizResult/quizResult.request'
-import { QuizResultModel } from '../../models/quizResult'
-import { createQuizResultSchema } from '../../schemas/quizResultSchema'
+import { createModuleSchema } from '../../schemas/moduleSchema'
+import { IModuleCreateRequest } from '../../interfaces/module/module.request'
+import { ModuleModel } from '../../models/moduleModel'
 
-export const createQuizResult = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const createModule = async (req: Request, res: Response): Promise<Response> => {
   const { error: validationError, value: validatedData } = validateRequest(
-    createQuizResultSchema,
+    createModuleSchema,
     req.body
   ) as {
     error: ValidationError
-    value: IQuizResultCreateRequest
+    value: IModuleCreateRequest
   }
 
   if (validationError) return handleValidationError(res, validationError)
 
   try {
-    validatedData.userId = validatedData.jwtPayload.userId
-    await QuizResultModel.create(validatedData)
+    await ModuleModel.create(validatedData)
 
-    logger.info(`Create quiz result request result successfully`)
+    logger.info(`Create module request result successfully`)
 
     return res.status(StatusCodes.CREATED).json(ResponseData.success({}))
   } catch (error) {

@@ -4,11 +4,13 @@ import userRoutes from './user.routes'
 import quizRoutes from './quiz.routes'
 import quizResultRoutes from './quizResult.routes'
 import authRoutes from './auth.routes'
+import moduleRoutes from './module.routes'
 
 export const appRouterV1 = (app: Express): void => {
   app.use('/api/v1', appCheckRoutes)
+  app.use('/api/v1/auth', authRoutes)
   app.use('/api/v1/users', userRoutes)
   app.use('/api/v1/quizzes', quizRoutes)
   app.use('/api/v1/quizzes/results', quizResultRoutes)
-  app.use('/api/v1/auth', authRoutes)
+  app.use('/api/v1/modules', moduleRoutes)
 }

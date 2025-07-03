@@ -3,6 +3,7 @@ import { sequelize } from '../database/config'
 import { BaseModelFields } from '../database/baseModelFields'
 import { QuizInstance } from '../interfaces/quiz/quiz.dto'
 import { QuizQuestionModel } from './quizQuestion'
+import { QuizResultModel } from './quizResult'
 
 export const QuizModel = sequelize.define<QuizInstance>(
   'Quiz',

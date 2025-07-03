@@ -8,49 +8,40 @@ import {
   handleServerError
 } from '../../utilities/requestHandler'
 import { ResponseData } from '../../utilities/response'
-import { findDetailQuizResultSchema } from '../../schemas/quizResultSchema'
-import { IQuizResultFindDetailRequest } from '../../interfaces/quizResult/quizResult.request'
-import { QuizResultModel } from '../../models/quizResult'
-import { QuizModel } from '../../models/quizModel'
+import { findDetailModuleSchema } from '../../schemas/moduleSchema'
+import { IModuleFindDetailRequest } from '../../interfaces/module/module.request'
+import { ModuleModel } from '../../models/moduleModel'
 
-export const findDetailQuizResult = async (
+export const findDetailModule = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
   const { error: validationError, value: queryParams } = validateRequest(
-    findDetailQuizResultSchema,
+    findDetailModuleSchema,
     req.params
   ) as {
     error: ValidationError
-    value: IQuizResultFindDetailRequest
+    value: IModuleFindDetailRequest
   }
 
   if (validationError) return handleValidationError(res, validationError)
 
   try {
-    const result = await QuizResultModel.findOne({
+    const result = await ModuleModel.findOne({
       where: {
         deleted: false,
         id: queryParams.id
-      },
-      include: [
-        {
-          model: QuizModel,
-          as: 'quiz',
-          attributes: ['id', 'title', 'description', 'category']
-        }
-      ],
-      attributes: ['id', 'quizId', 'userId', 'score']
+      }
     })
 
     if (result == null) {
-      const message = `Quiz result not found with ID: ${queryParams.id}`
+      const message = `Module result not found with ID: ${queryParams.id}`
       logger.warn(message)
       return res.status(StatusCodes.NOT_FOUND).json(ResponseData.error({ message }))
     }
 
     const response = ResponseData.success({ data: result })
-    logger.info('Quiz result found successfully')
+    logger.info('Module result found successfully')
     return res.status(StatusCodes.OK).json(response)
   } catch (serverError) {
     return handleServerError(res, serverError)

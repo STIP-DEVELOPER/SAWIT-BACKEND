@@ -1,16 +1,16 @@
 import { Router, type Request, type Response } from 'express'
-import { usersController } from '../controllers/users'
+import { authController } from '../controllers/auth'
 
 const router = Router()
 
 router.post(
   '/login',
-  async (req: Request, res: Response) => await usersController.login(req, res)
+  async (req: Request, res: Response) => await authController.login(req, res)
 )
 
 router.post(
   '/register',
-  async (req: Request, res: Response) => await usersController.register(req, res)
+  async (req: Request, res: Response) => await authController.register(req, res)
 )
 
 export default router

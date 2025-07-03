@@ -1,30 +1,32 @@
 import Joi from 'joi'
 import { jwtPayloadSchema } from './jwtPayloadSchema'
 
-export const createQuizResultSchema = Joi.object({
+export const createModuleSchema = Joi.object({
   jwtPayload: jwtPayloadSchema,
-  quizId: Joi.number().integer().positive().required(),
-  score: Joi.number().integer().positive().required()
+  title: Joi.string().required(),
+  description: Joi.string().required(),
+  image: Joi.string().optional()
 })
 
-export const updateQuizResultSchema = Joi.object({
+export const updateModuleSchema = Joi.object({
   jwtPayload: jwtPayloadSchema,
   id: Joi.number().integer().positive().required(),
-  quizId: Joi.number().integer().positive().optional(),
-  score: Joi.number().integer().positive().optional()
+  title: Joi.string().optional(),
+  description: Joi.string().optional(),
+  image: Joi.string().optional()
 })
 
-export const deleteQuizResultSchema = Joi.object({
+export const deleteModuleSchema = Joi.object({
   jwtPayload: jwtPayloadSchema,
   id: Joi.number().integer().positive().required()
 })
 
-export const findDetailQuizResultSchema = Joi.object({
+export const findDetailModuleSchema = Joi.object({
   jwtPayload: jwtPayloadSchema,
   id: Joi.number().integer().positive().required()
 })
 
-export const findAllQuizResultSchema = Joi.object({
+export const findAllModuleSchema = Joi.object({
   jwtPayload: jwtPayloadSchema,
   page: Joi.number().integer().optional(),
   size: Joi.number().integer().optional(),

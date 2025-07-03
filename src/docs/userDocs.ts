@@ -2,30 +2,6 @@
  * @swagger
  * components:
  *   schemas:
- *     IUserRegisterRequest:
- *       type: object
- *       properties:
- *         name:
- *           type: string
- *           example: John Doe
- *         email:
- *           type: string
- *           example: test@mail.com
- *         password:
- *           type: string
- *           example: qwerty
- *         role:
- *           type: string
- *           example: user
- *     IUserLoginRequest:
- *       type: object
- *       properties:
- *         email:
- *           type: string
- *           example: test@mail.com
- *         password:
- *           type: string
- *           example: qwerty
  *     IUserUpdateRequest:
  *       type: object
  *       properties:
@@ -146,42 +122,4 @@
  *     responses:
  *       200:
  *         description: User deleted successfully
- */
-
-/**
- * @swagger
- * /api/v1/users/login:
- *   post:
- *     summary: Login a user
- *     tags: [USERS]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/IUserLoginRequest'
- *     responses:
- *       200:
- *         description: Login successful
- *       401:
- *         description: Invalid credentials
- */
-
-/**
- * @swagger
- * /api/v1/users/register:
- *   post:
- *     summary: Register a new user
- *     tags: [USERS]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/IUserRegisterRequest'
- *     responses:
- *       201:
- *         description: User registered successfully
- *       400:
- *         description: Invalid input
  */

@@ -1,3 +1,4 @@
+import { IGameEvaluationQuestionCreateRequest } from '../gameEvaluationQuestion/gameEvaluationQuestion.request'
 import { IJwtPayload } from '../shared/jwt.interface'
 import { IPaginationRequest } from '../shared/paginationRequest.interface'
 
@@ -6,6 +7,7 @@ export interface IPuzzleGameCreateRequest {
   title: string
   description: string
   image: string
+  gameEvaluationQuestion: IGameEvaluationQuestionCreateRequest[]
 }
 
 export interface IPuzzleGameFindAllRequest extends IPaginationRequest {

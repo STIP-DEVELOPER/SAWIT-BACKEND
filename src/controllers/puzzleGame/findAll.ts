@@ -13,6 +13,7 @@ import { ResponseData } from '../../utilities/response'
 import { findAllPuzzleGameSchema } from '../../schemas/puzzleGameSchema'
 import { IPuzzleGameFindAllRequest } from '../../interfaces/puzzleGame/puzzleGame.request'
 import { PuzzleGameModel } from '../../models/puzzleGameModel'
+import { GameEvaluationQuestionModel } from '../../models/gameEvaluationQuestionModel'
 
 export const findAllPuzzleGame = async (
   req: Request,
@@ -58,6 +59,7 @@ export const findAllPuzzleGame = async (
 
         ...dateFilter
       },
+
       order: [['id', 'desc']],
       ...(pagination === true && {
         limit: page.limit,

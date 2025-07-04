@@ -8,26 +8,35 @@ import {
   validateRequest,
   handleServerError
 } from '../../utilities/requestHandler'
-import { createGameEvaluationAnswerSchema } from '../../schemas/gameEvaluationAnswerSchema'
+
 import { GameEvaluationAnswerModel } from '../../models/gameEvaluationAnswerModel'
 import { IGameEvaluationAnswerCreateRequest } from '../../interfaces/gameEvaluationAnswer/gameEvaluationAnswer.request'
+import { createManyGameEvaluationAnswerSchema } from '../../schemas/gameEvaluationAnswerSchema'
 
 export const createGameEvaluationAnswer = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
+  console.log(req.body)
   const { error: validationError, value: validatedData } = validateRequest(
-    createGameEvaluationAnswerSchema,
+    createManyGameEvaluationAnswerSchema,
     req.body
   ) as {
     error: ValidationError
-    value: IGameEvaluationAnswerCreateRequest
+    value: { jwtPayload: any; answers: IGameEvaluationAnswerCreateRequest[] }
   }
 
   if (validationError) return handleValidationError(res, validationError)
 
   try {
-    await GameEvaluationAnswerModel.create(validatedData)
+    const payload = validatedData?.answers.map((item) => {
+      return {
+        ...item,
+        userId: req.body.jwtPayload.userId
+      }
+    })
+
+    await GameEvaluationAnswerModel.bulkCreate(payload)
 
     logger.info(`Create game evaluation answer request result successfully`)
 

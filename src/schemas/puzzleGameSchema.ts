@@ -1,11 +1,17 @@
 import Joi from 'joi'
 import { jwtPayloadSchema } from './jwtPayloadSchema'
 
+const gameEvaluationQuestionItemSchema = Joi.object({
+  question: Joi.string().required(),
+  category: Joi.string().valid('puzzle', 'word').default('puzzle')
+})
+
 export const createPuzzleGameSchema = Joi.object({
   jwtPayload: jwtPayloadSchema,
   title: Joi.string().required(),
   description: Joi.string().required(),
-  image: Joi.string().optional()
+  image: Joi.string().optional(),
+  gameEvaluationQuestion: Joi.array().items(gameEvaluationQuestionItemSchema).optional()
 })
 
 export const updatePuzzleGameSchema = Joi.object({
@@ -13,7 +19,8 @@ export const updatePuzzleGameSchema = Joi.object({
   id: Joi.number().integer().positive().required(),
   title: Joi.string().optional(),
   description: Joi.string().optional(),
-  image: Joi.string().optional()
+  image: Joi.string().optional(),
+  gameEvaluationQuestion: Joi.array().items(gameEvaluationQuestionItemSchema).optional()
 })
 
 export const deletePuzzleGameSchema = Joi.object({

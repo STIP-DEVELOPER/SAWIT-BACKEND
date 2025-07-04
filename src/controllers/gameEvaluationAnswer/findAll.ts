@@ -13,6 +13,7 @@ import { ResponseData } from '../../utilities/response'
 import { findAllGameEvaluationAnswerSchema } from '../../schemas/gameEvaluationAnswerSchema'
 import { IGameEvaluationAnswerFindAllRequest } from '../../interfaces/gameEvaluationAnswer/gameEvaluationAnswer.request'
 import { GameEvaluationAnswerModel } from '../../models/gameEvaluationAnswerModel'
+import { GameEvaluationQuestionModel } from '../../models/gameEvaluationQuestionModel'
 
 export const findAllGameEvaluationAnswer = async (
   req: Request,
@@ -58,6 +59,13 @@ export const findAllGameEvaluationAnswer = async (
 
         ...dateFilter
       },
+      include: [
+        {
+          model: GameEvaluationQuestionModel,
+          as: 'question',
+          attributes: ['question']
+        }
+      ],
       order: [['id', 'desc']],
       ...(pagination === true && {
         limit: page.limit,

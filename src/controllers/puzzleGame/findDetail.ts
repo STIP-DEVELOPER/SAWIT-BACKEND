@@ -11,6 +11,7 @@ import { ResponseData } from '../../utilities/response'
 import { findDetailPuzzleGameSchema } from '../../schemas/puzzleGameSchema'
 import { IPuzzleGameFindDetailRequest } from '../../interfaces/puzzleGame/puzzleGame.request'
 import { PuzzleGameModel } from '../../models/puzzleGameModel'
+import { GameEvaluationQuestionModel } from '../../models/gameEvaluationQuestionModel'
 
 export const findDetailPuzzleGame = async (
   req: Request,
@@ -31,7 +32,14 @@ export const findDetailPuzzleGame = async (
       where: {
         deleted: false,
         id: queryParams.id
-      }
+      },
+      include: [
+        {
+          model: GameEvaluationQuestionModel,
+          as: 'evaluations',
+          attributes: ['gameId', 'id', 'question', 'category']
+        }
+      ]
     })
 
     if (result == null) {

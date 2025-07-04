@@ -2,6 +2,17 @@
  * @swagger
  * components:
  *   schemas:
+ *     IGameEvaluationQuestion:
+ *       type: object
+ *       properties:
+ *         question:
+ *           type: string
+ *           example: "Apa manfaat bermain puzzle?"
+ *         category:
+ *           type: string
+ *           enum: [puzzle, word]
+ *           example: "puzzle"
+
  *     IPuzzleGameCreateRequest:
  *       type: object
  *       properties:
@@ -13,11 +24,15 @@
  *           example: "Modul tentang konsep dasar pemrograman"
  *         image:
  *           type: string
- *           example: "https://example.com/module-image.png "
+ *           example: "https://example.com/module-image.png"
+ *         gameEvaluationQuestion:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/IGameEvaluationQuestion'
  *       required:
  *         - title
  *         - description
- *
+
  *     IPuzzleGameUpdateRequest:
  *       type: object
  *       properties:
@@ -32,10 +47,14 @@
  *           example: "Deskripsi diperbarui"
  *         image:
  *           type: string
- *           example: "https://example.com/updated-module-image.png "
+ *           example: "https://example.com/updated-module-image.png"
+ *         gameEvaluationQuestion:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/IGameEvaluationQuestion'
  *       required:
  *         - id
- *
+
  *     IPuzzleGameFindDetailRequest:
  *       type: object
  *       properties:
@@ -44,7 +63,7 @@
  *           example: 1
  *       required:
  *         - id
- *
+
  *     IPuzzleGameFindAllRequest:
  *       type: object
  *       properties:
@@ -72,7 +91,7 @@
  * @swagger
  * /api/v1/games/puzzles:
  *   get:
- *     summary: Get all puzzle game with optional filters
+ *     summary: Get all puzzle games with optional filters
  *     tags: [PUZZLE-GAME]
  *     security:
  *       - BearerAuth: []
@@ -103,7 +122,7 @@
  *           type: string
  *     responses:
  *       200:
- *         description: List of modules retrieved successfully
+ *         description: List of puzzle games retrieved successfully
  *       401:
  *         description: Unauthorized
  *       500:
@@ -114,7 +133,7 @@
  * @swagger
  * /api/v1/games/puzzles/detail/{id}:
  *   get:
- *     summary: Get module detail by ID
+ *     summary: Get puzzle game detail by ID
  *     tags: [PUZZLE-GAME]
  *     security:
  *       - BearerAuth: []
@@ -126,9 +145,9 @@
  *           type: number
  *     responses:
  *       200:
- *         description: Module detail retrieved successfully
+ *         description: Puzzle game detail retrieved successfully
  *       404:
- *         description: Module not found
+ *         description: Puzzle game not found
  *       401:
  *         description: Unauthorized
  *       500:
@@ -139,7 +158,7 @@
  * @swagger
  * /api/v1/games/puzzles:
  *   post:
- *     summary: Create a new module
+ *     summary: Create a new puzzle game
  *     tags: [PUZZLE-GAME]
  *     security:
  *       - BearerAuth: []
@@ -151,7 +170,7 @@
  *             $ref: '#/components/schemas/IPuzzleGameCreateRequest'
  *     responses:
  *       201:
- *         description: Module created successfully
+ *         description: Puzzle game created successfully
  *       400:
  *         description: Invalid input
  *       401:
@@ -164,7 +183,7 @@
  * @swagger
  * /api/v1/games/puzzles:
  *   patch:
- *     summary: Update an existing module
+ *     summary: Update an existing puzzle game
  *     tags: [PUZZLE-GAME]
  *     security:
  *       - BearerAuth: []
@@ -176,9 +195,9 @@
  *             $ref: '#/components/schemas/IPuzzleGameUpdateRequest'
  *     responses:
  *       200:
- *         description: Module updated successfully
+ *         description: Puzzle game updated successfully
  *       404:
- *         description: Module not found
+ *         description: Puzzle game not found
  *       400:
  *         description: Invalid input
  *       401:
@@ -191,7 +210,7 @@
  * @swagger
  * /api/v1/games/puzzles/{id}:
  *   delete:
- *     summary: Delete a module by ID
+ *     summary: Delete a puzzle game by ID
  *     tags: [PUZZLE-GAME]
  *     security:
  *       - BearerAuth: []
@@ -203,9 +222,9 @@
  *           type: number
  *     responses:
  *       200:
- *         description: Module deleted successfully
+ *         description: Puzzle game deleted successfully
  *       404:
- *         description: Module not found
+ *         description: Puzzle game not found
  *       400:
  *         description: Invalid input
  *       401:

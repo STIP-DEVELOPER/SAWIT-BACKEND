@@ -2,6 +2,7 @@ import { DataTypes } from 'sequelize'
 import { sequelize } from '../database/config'
 import { BaseModelFields } from '../database/baseModelFields'
 import { PuzzleGameInstance } from '../interfaces/puzzleGame/puzzleGame.dto'
+import { GameEvaluationQuestionModel } from './gameEvaluationQuestionModel'
 
 export const PuzzleGameModel = sequelize.define<PuzzleGameInstance>(
   'PuzzleGame',
@@ -25,3 +26,9 @@ export const PuzzleGameModel = sequelize.define<PuzzleGameInstance>(
     underscored: true
   }
 )
+
+PuzzleGameModel.hasMany(GameEvaluationQuestionModel, {
+  foreignKey: 'gameId',
+  as: 'evaluations',
+  onDelete: 'CASCADE'
+})

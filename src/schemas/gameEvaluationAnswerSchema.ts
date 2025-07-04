@@ -1,26 +1,16 @@
 import Joi from 'joi'
 import { jwtPayloadSchema } from './jwtPayloadSchema'
 
-export const createGameEvaluationAnswerSchema = Joi.object({
-  jwtPayload: jwtPayloadSchema,
-  question: Joi.string().required(),
+const singleAnswerSchema = Joi.object({
+  answer: Joi.string().required(),
   gameId: Joi.number().required(),
-  questioId: Joi.number().required(),
-  category: Joi.string().valid('puzzle', 'word').default('puzzle').required()
+  questionId: Joi.number().required(),
+  category: Joi.string().valid('puzzle', 'word').required()
 })
 
-export const updateGameEvaluationAnswerSchema = Joi.object({
-  jwtPayload: jwtPayloadSchema,
-  id: Joi.number().integer().positive().required(),
-  question: Joi.string().optional(),
-  gameId: Joi.number().optional(),
-  questioId: Joi.number().optional(),
-  category: Joi.string().valid('puzzle', 'word').default('puzzle').optional()
-})
-
-export const deleteGameEvaluationAnswerSchema = Joi.object({
-  jwtPayload: jwtPayloadSchema,
-  id: Joi.number().integer().positive().required()
+export const createManyGameEvaluationAnswerSchema = Joi.object({
+  jwtPayload: jwtPayloadSchema.required(),
+  answers: Joi.array().items(singleAnswerSchema).min(1).required()
 })
 
 export const findDetailGameEvaluationAnswerSchema = Joi.object({

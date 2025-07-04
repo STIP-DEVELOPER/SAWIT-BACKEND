@@ -2,6 +2,7 @@ import { DataTypes } from 'sequelize'
 import { sequelize } from '../database/config'
 import { BaseModelFields } from '../database/baseModelFields'
 import { GameEvaluationAnswerInstance } from '../interfaces/gameEvaluationAnswer/gameEvaluationAnswer.dto'
+import { GameEvaluationQuestionModel } from './gameEvaluationQuestionModel'
 
 export const GameEvaluationAnswerModel = sequelize.define<GameEvaluationAnswerInstance>(
   'GameEvelutaionAnswer',
@@ -35,3 +36,8 @@ export const GameEvaluationAnswerModel = sequelize.define<GameEvaluationAnswerIn
     underscored: true
   }
 )
+
+GameEvaluationAnswerModel.belongsTo(GameEvaluationQuestionModel, {
+  foreignKey: 'questionId',
+  as: 'question'
+})

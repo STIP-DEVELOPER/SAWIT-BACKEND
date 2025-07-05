@@ -32,8 +32,12 @@ const options: Options = {
       description: 'User-related endpoints'
     },
     {
-      name: 'Quiz',
+      name: 'QUIZZES',
       description: 'quiz-related endpoints'
+    },
+    {
+      name: 'AUTH',
+      description: 'auth-related endpoints'
     }
   ],
   apis: ['./src/docs/*.ts']

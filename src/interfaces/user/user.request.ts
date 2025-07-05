@@ -1,3 +1,4 @@
+import { IJwtPayload } from '../shared/jwt.interface'
 import { IPaginationRequest } from '../shared/paginationRequest.interface'
 
 export interface IUserUpdateRequest {
@@ -28,4 +29,10 @@ export interface IUserRegisterRequest {
   email: string
   password: string
   role: 'superAdmin' | 'admin' | 'user'
+}
+
+export interface IMyProfile {
+  jwtPayload: IJwtPayload
+  name: string
+  email: string
 }

@@ -3,6 +3,7 @@ import { sequelize } from '../database/config'
 import { BaseModelFields } from '../database/baseModelFields'
 import { QuizInstance } from '../interfaces/quiz/quiz.dto'
 import { QuizQuestionModel } from './quizQuestion'
+import { QuizResultModel } from './quizResult'
 
 export const QuizModel = sequelize.define<QuizInstance>(
   'Quiz',
@@ -14,12 +15,15 @@ export const QuizModel = sequelize.define<QuizInstance>(
     },
     description: {
       type: DataTypes.TEXT
+    },
+    category: {
+      type: DataTypes.ENUM('general', 'personal'),
+      allowNull: false
     }
   },
   {
     tableName: 'quiz',
     timestamps: true,
-    paranoid: true,
     underscored: true
   }
 )

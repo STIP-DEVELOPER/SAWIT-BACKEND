@@ -1,7 +1,7 @@
-import { type Response, type Request } from 'express'
+import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { ValidationError } from 'joi'
-import { Op } from 'sequelize'
+import { Op, Sequelize } from 'sequelize'
 import { IQuizFindAllRequest } from '../../interfaces/quiz/quiz.request'
 import logger from '../../logs'
 import { QuizModel } from '../../models/quizModel'
@@ -13,8 +13,6 @@ import {
 } from '../../utilities/requestHandler'
 import { ResponseData } from '../../utilities/response'
 import { findAllQuizSchema } from '../../schemas/quizSchema'
-import { QuizQuestionModel } from '../../models/quizQuestion'
-import { QuizOptionModel } from '../../models/quizOption'
 
 export const findAllQuiz = async (req: Request, res: Response): Promise<Response> => {
   const { error: validationError, value: queryParams } = validateRequest(
@@ -34,7 +32,8 @@ export const findAllQuiz = async (req: Request, res: Response): Promise<Response
       search,
       pagination,
       startDate,
-      endDate
+      endDate,
+      category
     } = queryParams
 
     const page = new Pagination(Number(queryPage) || 0, Number(querySize) || 10)
@@ -48,28 +47,24 @@ export const findAllQuiz = async (req: Request, res: Response): Promise<Response
           }
         : {}
 
+    const totalQuestionsSubQuery = Sequelize.literal(`(
+      SELECT COUNT(*) FROM quiz_question AS questions WHERE questions.quiz_id = Quiz.id
+    )`)
+
     const result = await QuizModel.findAndCountAll({
       where: {
         deleted: false,
         ...(search && {
-          name: { [Op.like]: `%${search}%` }
+          title: { [Op.like]: `%${search}%` }
+        }),
+        ...(category && {
+          category
         }),
         ...dateFilter
       },
-      include: [
-        {
-          model: QuizQuestionModel,
-          as: 'questions',
-          attributes: ['questionText', 'id', 'quizId'],
-          include: [
-            {
-              model: QuizOptionModel,
-              as: 'options',
-              attributes: ['optionText', 'id', 'questionId', 'isCorrect']
-            }
-          ]
-        }
-      ],
+      attributes: {
+        include: [[totalQuestionsSubQuery, 'totalQuestions']]
+      },
       order: [['id', 'desc']],
       ...(pagination === true && {
         limit: page.limit,
@@ -78,9 +73,10 @@ export const findAllQuiz = async (req: Request, res: Response): Promise<Response
     })
 
     const response = ResponseData.success({ data: result })
+    logger.info('Quiz retrieved successfully')
+
     response.data = page.formatData(result)
 
-    logger.info('Quiz retrieved successfully')
     return res.status(StatusCodes.OK).json(response)
   } catch (serverError) {
     return handleServerError(res, serverError)

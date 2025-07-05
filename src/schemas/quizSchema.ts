@@ -15,6 +15,7 @@ export const createQuizSchema = Joi.object({
   jwtPayload: jwtPayloadSchema,
   title: Joi.string().required(),
   description: Joi.string().optional(),
+  category: Joi.string().valid('personal', 'general').default('personal').required(),
   items: Joi.array().items(quizQuestionSchema).required().min(1).required()
 })
 
@@ -45,7 +46,8 @@ export const deleteQuizSchema = Joi.object({
 
 export const findDetailQuizSchema = Joi.object({
   jwtPayload: jwtPayloadSchema,
-  id: Joi.number().integer().positive().required()
+  id: Joi.number().integer().positive().required(),
+  category: Joi.string().valid('personal', 'general').default('personal').required()
 })
 
 export const findAllQuizSchema = Joi.object({
@@ -55,5 +57,6 @@ export const findAllQuizSchema = Joi.object({
   search: Joi.string().allow('').optional(),
   pagination: Joi.boolean().optional(),
   startDate: Joi.string().allow('').optional(),
-  endDate: Joi.string().allow('').optional()
+  endDate: Joi.string().allow('').optional(),
+  category: Joi.string().valid('personal', 'general').default('personal').required()
 })

@@ -22,6 +22,7 @@ export const createQuiz = async (req: Request, res: Response): Promise<Response>
     value: {
       title: string
       description?: string
+      category: 'general' | 'personal'
       items: Array<{
         questionText: string
         options: Array<{ optionText: string; isCorrect: boolean }>
@@ -37,7 +38,8 @@ export const createQuiz = async (req: Request, res: Response): Promise<Response>
     const newQuiz = await QuizModel.create(
       {
         title: validatedData.title,
-        description: validatedData.description
+        description: validatedData.description,
+        category: validatedData.category
       },
       { transaction: t }
     )

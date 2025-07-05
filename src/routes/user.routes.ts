@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Router, type Request, type Response } from 'express'
 import { usersController } from '../controllers/users'
 import { middleware } from '../middlewares'
@@ -25,16 +24,6 @@ router.patch(
 router.delete(
   '/',
   async (req: Request, res: Response) => await usersController.remove(req, res)
-)
-
-router.post(
-  '/login',
-  async (req: Request, res: Response) => await usersController.login(req, res)
-)
-
-router.post(
-  '/register',
-  async (req: Request, res: Response) => await usersController.register(req, res)
 )
 
 export default router

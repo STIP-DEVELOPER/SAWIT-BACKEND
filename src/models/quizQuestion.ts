@@ -24,8 +24,8 @@ export const QuizQuestionModel = sequelize.define<QuizQuestionInstance>(
   {
     tableName: 'quiz_question',
     timestamps: false,
-    paranoid: true,
-    underscored: true
+    underscored: true,
+    freezeTableName: true
   }
 )
 

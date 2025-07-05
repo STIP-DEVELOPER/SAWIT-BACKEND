@@ -27,7 +27,8 @@ export const appConfigs = {
       database: process.env.DB_NAME,
       host: process.env.DB_HOST,
       dialect: process.env.DB_DIALECT,
-      logging: process.env.DB_LOG === 'true'
+      logging: process.env.DB_LOG === 'true',
+      port: process.env.DB_PORT
     },
     testing: {
       username: process.env.DB_USER_NAME,
@@ -35,7 +36,8 @@ export const appConfigs = {
       database: process.env.DB_NAME,
       host: process.env.DB_HOST,
       dialect: process.env.DB_DIALECT,
-      logging: process.env.DB_LOG === 'true'
+      logging: process.env.DB_LOG === 'true',
+      port: process.env.DB_PORT
     },
     production: {
       username: process.env.DB_USER_NAME,
@@ -43,7 +45,8 @@ export const appConfigs = {
       database: process.env.DB_NAME,
       host: process.env.DB_HOST,
       dialect: process.env.DB_DIALECT,
-      logging: process.env.DB_LOG === 'true'
+      logging: process.env.DB_LOG === 'true',
+      port: process.env.DB_PORT
     }
   }
 }

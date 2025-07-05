@@ -14,6 +14,8 @@ import { findAllGameEvaluationAnswerSchema } from '../../schemas/gameEvaluationA
 import { IGameEvaluationAnswerFindAllRequest } from '../../interfaces/gameEvaluationAnswer/gameEvaluationAnswer.request'
 import { GameEvaluationAnswerModel } from '../../models/gameEvaluationAnswerModel'
 import { GameEvaluationQuestionModel } from '../../models/gameEvaluationQuestionModel'
+import { UserModel } from '../../models/user'
+import { PuzzleGameModel } from '../../models/puzzleGameModel'
 
 export const findAllGameEvaluationAnswer = async (
   req: Request,
@@ -64,6 +66,15 @@ export const findAllGameEvaluationAnswer = async (
           model: GameEvaluationQuestionModel,
           as: 'question',
           attributes: ['question']
+        },
+        {
+          model: UserModel,
+          as: 'user',
+          attributes: ['name']
+        },
+        {
+          model: PuzzleGameModel,
+          as: 'game'
         }
       ],
       order: [['id', 'desc']],

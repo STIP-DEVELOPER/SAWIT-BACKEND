@@ -8,6 +8,7 @@ import moduleRoutes from './module.routes'
 import puzzleGameRoutes from './puzzleGame.routes'
 import gameEvaluationQuestionRoutes from './gameEvaluationQuestion.routes'
 import gameEvaluationAnswerRoutes from './gameEvaluationAnswer.routes'
+import myProfileRoutes from './myProfile.routes'
 
 export const appRouterV1 = (app: Express): void => {
   app.use('/api/v1', appCheckRoutes)
@@ -19,4 +20,5 @@ export const appRouterV1 = (app: Express): void => {
   app.use('/api/v1/games/puzzles', puzzleGameRoutes)
   app.use('/api/v1/games/evaluations/questions', gameEvaluationQuestionRoutes)
   app.use('/api/v1/games/evaluations/answers', gameEvaluationAnswerRoutes)
+  app.use('/api/v1/my-profiles', myProfileRoutes)
 }

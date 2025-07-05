@@ -3,6 +3,8 @@ import { sequelize } from '../database/config'
 import { BaseModelFields } from '../database/baseModelFields'
 import { GameEvaluationAnswerInstance } from '../interfaces/gameEvaluationAnswer/gameEvaluationAnswer.dto'
 import { GameEvaluationQuestionModel } from './gameEvaluationQuestionModel'
+import { UserModel } from './user'
+import { PuzzleGameModel } from './puzzleGameModel'
 
 export const GameEvaluationAnswerModel = sequelize.define<GameEvaluationAnswerInstance>(
   'GameEvelutaionAnswer',
@@ -40,4 +42,14 @@ export const GameEvaluationAnswerModel = sequelize.define<GameEvaluationAnswerIn
 GameEvaluationAnswerModel.belongsTo(GameEvaluationQuestionModel, {
   foreignKey: 'questionId',
   as: 'question'
+})
+
+GameEvaluationAnswerModel.belongsTo(UserModel, {
+  foreignKey: 'userId',
+  as: 'user'
+})
+
+GameEvaluationAnswerModel.belongsTo(PuzzleGameModel, {
+  foreignKey: 'gameId',
+  as: 'game'
 })

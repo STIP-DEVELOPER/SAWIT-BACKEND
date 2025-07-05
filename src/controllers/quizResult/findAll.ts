@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { ValidationError } from 'joi'
-import { Op } from 'sequelize'
+import { Op, Sequelize } from 'sequelize'
 import logger from '../../logs'
 import { Pagination } from '../../utilities/pagination'
 import {
@@ -56,6 +56,10 @@ export const findAllQuizResult = async (
           }
         : {}
 
+    const totalQuestionsSubQuery = Sequelize.literal(`(
+              SELECT COUNT(*) FROM quiz_question AS questions WHERE questions.quiz_id = Quiz.id
+            )`)
+
     const result = await QuizResultModel.findAndCountAll({
       where: {
         deleted: false,
@@ -71,7 +75,13 @@ export const findAllQuizResult = async (
         {
           model: QuizModel,
           as: 'quiz',
-          attributes: ['id', 'title', 'description', 'category']
+          attributes: [
+            [totalQuestionsSubQuery, 'totalQuestions'],
+            'id',
+            'title',
+            'description',
+            'category'
+          ]
         }
       ],
       attributes: ['id', 'quizId', 'userId', 'score'],

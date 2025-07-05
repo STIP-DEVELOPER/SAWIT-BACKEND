@@ -32,7 +32,7 @@ app.use(helmet())
 
 app.use(
   cors({
-    origin: appConfigs.cors.origin?.toString().split(',') ?? ['http://localhost:5317'],
+    origin: appConfigs.cors.origin?.toString().split(',') ?? ['http://localhost:5173'],
     credentials: true
   })
 )

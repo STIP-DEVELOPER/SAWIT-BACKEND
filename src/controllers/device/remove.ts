@@ -1,45 +1,48 @@
-import { type Response } from 'express'
+import { type Response, type Request } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { ValidationError } from 'joi'
-import { IUserFindDetailRequest } from '../../interfaces/user/user.request'
 import logger from '../../logs'
-import { UserModel } from '../../models/user'
-import { findDetailUserSchema } from '../../schemas/user'
 import {
   validateRequest,
   handleValidationError,
   handleServerError
 } from '../../utilities/requestHandler'
 import { ResponseData } from '../../utilities/response'
+import { removeDeviceSchema } from '../../schemas/deviceSchema'
+import { IDeviceRemoveRequest } from '../../interfaces/device/device.request'
+import { DeviceModel } from '../../models/deviceModel'
 
-export const findDetailUser = async (req: any, res: Response): Promise<Response> => {
+export const removeDevice = async (req: Request, res: Response): Promise<Response> => {
   const { error: validationError, value: queryParams } = validateRequest(
-    findDetailUserSchema,
+    removeDeviceSchema,
     req.params
   ) as {
     error: ValidationError
-    value: IUserFindDetailRequest
+    value: IDeviceRemoveRequest
   }
 
   if (validationError) return handleValidationError(res, validationError)
 
   try {
-    const result = await UserModel.findOne({
+    const result = await DeviceModel.findOne({
       where: {
         deleted: false,
         id: queryParams.id
-      },
-      attributes: ['id', 'name', 'email', 'role', 'createdAt', 'updatedAt']
+      }
     })
 
     if (result == null) {
-      const message = 'User not found!'
-      logger.info(message)
+      const message = `Device result not found with ID: ${queryParams.id}`
+      logger.warn(message)
       return res.status(StatusCodes.NOT_FOUND).json(ResponseData.error({ message }))
     }
 
-    const response = ResponseData.success({ data: result })
-    logger.info(`Fetched user with ID: ${queryParams.id} successfully`)
+    await result.destroy()
+
+    const response = ResponseData.success({
+      message: 'Device result deleted successfully'
+    })
+    logger.info('Device result deleted successfully')
     return res.status(StatusCodes.OK).json(response)
   } catch (serverError) {
     return handleServerError(res, serverError)

@@ -13,10 +13,6 @@ module.exports = {
         type: DataTypes.STRING(80),
         allowNull: false
       },
-      whatsapp_number: {
-        type: DataTypes.STRING,
-        allowNull: true
-      },
       email: {
         type: DataTypes.STRING(100),
         allowNull: false
@@ -26,9 +22,9 @@ module.exports = {
         allowNull: false
       },
       role: {
-        type: DataTypes.ENUM('superAdmin', 'admin', 'user'),
+        type: DataTypes.ENUM('superAdmin', 'admin'),
         allowNull: false,
-        defaultValue: 'user'
+        defaultValue: 'admin'
       }
     })
   },

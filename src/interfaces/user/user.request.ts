@@ -3,11 +3,10 @@ import { IPaginationRequest } from '../shared/paginationRequest.interface'
 
 export interface IUserUpdateRequest {
   id: number
-  whatsappNumber?: string
   name?: string
   email?: string
   password?: string
-  role?: 'superAdmin' | 'admin' | 'user' | string
+  role?: 'superAdmin' | 'admin' | string
 }
 
 export interface IUserFindAllRequest extends IPaginationRequest {}
@@ -25,10 +24,9 @@ export interface IUserLoginRequest {
 
 export interface IUserRegisterRequest {
   name: string
-  whatsappNumber: string
   email: string
   password: string
-  role: 'superAdmin' | 'admin' | 'user'
+  role: 'superAdmin' | 'admin'
 }
 
 export interface IMyProfile {

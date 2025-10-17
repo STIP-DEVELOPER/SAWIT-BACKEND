@@ -4,23 +4,14 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('users', [
+    await queryInterface.bulkInsert('user', [
       {
-        id: 1,
-        name: 'user',
-        email: 'user@mail.com',
-        password: 'cf7c906bfbb48e72288fc016bac0e6ed58b0dc2a',
-        role: 'user'
-      },
-      {
-        id: 2,
         name: 'admin',
         email: 'admin@mail.com',
         password: 'cf7c906bfbb48e72288fc016bac0e6ed58b0dc2a',
         role: 'admin'
       },
       {
-        id: 3,
         name: 'superAdmin',
         email: 'superAdmin@mail.com',
         password: 'cf7c906bfbb48e72288fc016bac0e6ed58b0dc2a',
@@ -30,6 +21,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('users', null, {})
+    await queryInterface.bulkDelete('user', null, {})
   }
 }

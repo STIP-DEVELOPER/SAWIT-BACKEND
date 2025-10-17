@@ -3,10 +3,9 @@ import { IBaseModelFields } from '../../database/baseModelFields'
 
 export interface IUserAttributes extends IBaseModelFields {
   name: string
-  whatsappNumber: string
   email: string
   password: string
-  role: 'superAdmin' | 'admin' | 'user'
+  role: 'superAdmin' | 'admin'
 }
 
 export type IUserCreationAttributes = Omit<

@@ -33,7 +33,6 @@ export const findAllUser = async (req: any, res: Response): Promise<Response> =>
     const result = await UserModel.findAndCountAll({
       where: {
         deleted: false,
-        role: 'user',
         ...(Boolean(search) && {
           [Op.or]: [{ name: { [Op.like]: `%${search}%` } }]
         })

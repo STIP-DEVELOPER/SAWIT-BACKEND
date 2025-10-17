@@ -11,10 +11,6 @@ export const UserModel = sequelize.define<UserInstance>(
       type: DataTypes.STRING,
       allowNull: false
     },
-    whatsappNumber: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
     email: {
       type: DataTypes.STRING,
       allowNull: true
@@ -24,9 +20,9 @@ export const UserModel = sequelize.define<UserInstance>(
       allowNull: false
     },
     role: {
-      type: DataTypes.ENUM('superAdmin', 'admin', 'user'),
+      type: DataTypes.ENUM('superAdmin', 'admin'),
       allowNull: false,
-      defaultValue: 'user'
+      defaultValue: 'admin'
     }
   },
   {

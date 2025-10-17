@@ -38,12 +38,11 @@ export const updateUser = async (req: any, res: Response): Promise<Response> => 
       return res.status(StatusCodes.NOT_FOUND).json(ResponseData.error({ message }))
     }
 
-    const { name, email, whatsappNumber, password, role } = validatedData
+    const { name, email, password, role } = validatedData
 
     const updatedData: Partial<IUserUpdateRequest | unknown> = {
       ...(name?.length ? { name } : {}),
       ...(email?.length ? { email } : {}),
-      ...(whatsappNumber?.length ? { whatsappNumber } : {}),
       ...(password?.length ? { password: hashPassword(password) } : {}),
       ...(role?.length ? { role } : {})
     }

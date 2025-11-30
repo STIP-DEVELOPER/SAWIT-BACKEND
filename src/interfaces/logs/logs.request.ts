@@ -2,13 +2,15 @@ import { IJwtPayload } from '../shared/jwt.interface'
 import { IPaginationRequest } from '../shared/paginationRequest.interface'
 
 export interface ILogCreateRequest {
-  deviceId: number
+  token: string
   deviceName: string
   message: string
   level: 'info' | 'warning' | 'error'
 }
 
-export interface ILogFindAllRequest extends IPaginationRequest {}
+export interface ILogFindAllRequest extends IPaginationRequest {
+  level?: 'info' | 'warning' | 'error'
+}
 
 export interface ILogFindDetailRequest {
   jwtPayload: IJwtPayload

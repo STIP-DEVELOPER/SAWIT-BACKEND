@@ -12,11 +12,11 @@ export const LocationModel = sequelize.define<LocationInstance>(
       allowNull: false
     },
     latitude: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.STRING,
       allowNull: false
     },
     longitude: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.STRING,
       allowNull: false
     }
   },

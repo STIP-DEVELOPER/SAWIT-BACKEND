@@ -58,7 +58,6 @@ export const findAllDevice = async (req: Request, res: Response): Promise<Respon
         }),
         ...dateFilter
       },
-      order: [['id', 'desc']],
       ...(pagination === true && {
         limit: page.limit,
         offset: page.offset

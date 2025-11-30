@@ -10,18 +10,17 @@ import {
   handleServerError
 } from '../../utilities/requestHandler'
 import { ResponseData } from '../../utilities/response'
-import { findAllDeviceSchema } from '../../schemas/deviceSchema'
-import { IDeviceFindAllRequest } from '../../interfaces/device/device.request'
-import { DeviceModel } from '../../models/deviceModel'
-import { LocationModel } from '../../models/locationModel'
+import { ILogFindAllRequest } from '../../interfaces/logs/logs.request'
+import { findAllLoggerSchema } from '../../schemas/loggerSchema'
+import { LogModel } from '../../models/logModel'
 
-export const findAllLocation = async (req: Request, res: Response): Promise<Response> => {
+export const findAllLogger = async (req: Request, res: Response): Promise<Response> => {
   const { error: validationError, value: queryParams } = validateRequest(
-    findAllDeviceSchema,
+    findAllLoggerSchema,
     req.query
   ) as {
     error: ValidationError
-    value: IDeviceFindAllRequest
+    value: ILogFindAllRequest
   }
 
   if (validationError) return handleValidationError(res, validationError)
@@ -33,8 +32,7 @@ export const findAllLocation = async (req: Request, res: Response): Promise<Resp
       search,
       pagination,
       startDate,
-      endDate,
-      status
+      endDate
     } = queryParams
 
     const page = new Pagination(Number(queryPage) || 0, Number(querySize) || 10)
@@ -48,25 +46,14 @@ export const findAllLocation = async (req: Request, res: Response): Promise<Resp
           }
         : {}
 
-    const result = await DeviceModel.findAndCountAll({
+    const result = await LogModel.findAndCountAll({
       where: {
         deleted: false,
         ...(search && {
           name: { [Op.like]: `%${search}%` }
         }),
-        ...(status && {
-          status: status
-        }),
         ...dateFilter
       },
-      include: [
-        {
-          model: LocationModel,
-          as: 'locations',
-          limit: 5,
-          order: [['created_at', 'DESC']]
-        }
-      ],
       ...(pagination === true && {
         limit: page.limit,
         offset: page.offset
@@ -74,7 +61,6 @@ export const findAllLocation = async (req: Request, res: Response): Promise<Resp
     })
 
     const response = ResponseData.success({ data: result })
-    logger.info('Device Result retrieved successfully')
 
     response.data = page.formatData(result)
 

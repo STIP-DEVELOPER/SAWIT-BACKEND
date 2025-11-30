@@ -6,6 +6,7 @@ import deviceRoutes from './device.routes'
 import myProfileRoutes from './myProfile.routes'
 import statisticRoutes from './statistic.routes'
 import locationRoutes from './location.routes'
+import loggerRoutes from './logger.routes'
 
 export const appRouterV1 = (app: Express): void => {
   app.use('/api/v1', appCheckRoutes)
@@ -15,4 +16,5 @@ export const appRouterV1 = (app: Express): void => {
   app.use('/api/v1/my-profiles', myProfileRoutes)
   app.use('/api/v1/statistic', statisticRoutes)
   app.use('/api/v1/locations', locationRoutes)
+  app.use('/api/v1/loggers', loggerRoutes)
 }

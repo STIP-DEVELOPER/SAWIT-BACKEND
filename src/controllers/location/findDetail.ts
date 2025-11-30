@@ -9,8 +9,8 @@ import {
 } from '../../utilities/requestHandler'
 import { ResponseData } from '../../utilities/response'
 import { IDeviceFindDetailRequest } from '../../interfaces/device/device.request'
-import { DeviceModel } from '../../models/deviceModel'
 import { findDetailLocationSchema } from '../../schemas/locationSchema'
+import { LocationModel } from '../../models/locationModel'
 
 export const findDetailLocation = async (
   req: Request,
@@ -27,7 +27,7 @@ export const findDetailLocation = async (
   if (validationError) return handleValidationError(res, validationError)
 
   try {
-    const result = await DeviceModel.findOne({
+    const result = await LocationModel.findOne({
       where: {
         deleted: false,
         id: queryParams.id

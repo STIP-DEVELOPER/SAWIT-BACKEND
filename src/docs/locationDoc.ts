@@ -5,7 +5,7 @@
  *     ILocationCreateRequest:
  *       type: object
  *       properties:
- *         deviceId:
+ *         token:
  *           type: string
  *         latitude:
  *           type: string
@@ -13,7 +13,7 @@
  *           type: string
  *         
  *       required:
- *          - deviceId
+ *          - token
  *          - latitude
  *          - longitude
  * 
@@ -111,6 +111,32 @@
  *         description: Device detail retrieved successfully
  *       404:
  *         description: Device not found
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /api/v1/locations/latest:
+ *   get:
+ *     summary: Get all devices latest locations
+ *     tags: [LOCATION]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: startDate
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: endDate
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: List of devices latest locations retrieved successfully
  *       401:
  *         description: Unauthorized
  *       500:

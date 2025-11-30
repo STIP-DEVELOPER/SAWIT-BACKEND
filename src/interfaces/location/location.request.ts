@@ -1,8 +1,9 @@
 import { IJwtPayload } from '../shared/jwt.interface'
 import { IPaginationRequest } from '../shared/paginationRequest.interface'
+import { ILocationCreationAttributes } from './location.dto'
 
-export interface ILocationCreateRequest {
-  deviceId: number
+export interface ILocationCreateRequest extends ILocationCreationAttributes {
+  token: string
   latitude: number
   longitude: number
 }
@@ -19,7 +20,7 @@ export interface ILocationRemoveRequest extends ILocationFindDetailRequest {
 }
 
 export interface ILocationUpdateRequest {
-  deviceId?: number
+  token?: string
   latitude?: number
   longitude?: number
   id: number

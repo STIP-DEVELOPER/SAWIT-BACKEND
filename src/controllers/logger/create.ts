@@ -8,18 +8,18 @@ import {
   validateRequest,
   handleServerError
 } from '../../utilities/requestHandler'
-import { createLocationSchema } from '../../schemas/locationSchema'
-import { LocationModel } from '../../models/locationModel'
 import { DeviceModel } from '../../models/deviceModel'
-import { ILocationCreateRequest } from '../../interfaces/location/location.request'
+import { ILogCreateRequest } from '../../interfaces/logs/logs.request'
+import { LogModel } from '../../models/logModel'
+import { createLoggerSchema } from '../../schemas/loggerSchema'
 
-export const createLocation = async (req: Request, res: Response): Promise<Response> => {
+export const createLogger = async (req: Request, res: Response): Promise<Response> => {
   const { error: validationError, value: validatedData } = validateRequest(
-    createLocationSchema,
+    createLoggerSchema,
     req.body
   ) as {
     error: ValidationError
-    value: ILocationCreateRequest
+    value: ILogCreateRequest
   }
 
   if (validationError) return handleValidationError(res, validationError)
@@ -30,14 +30,21 @@ export const createLocation = async (req: Request, res: Response): Promise<Respo
     })
 
     if (device == null || device.id == null) {
-      const message = `Device not found with token: ${validatedData.token}`
+      const message = `Logger: Device not found`
       logger.warn(message)
       return res.status(StatusCodes.NOT_FOUND).json(ResponseData.error({ message }))
     }
 
-    await LocationModel.create({ ...validatedData, deviceId: device.id! })
+    const payload = {
+      deviceId: device.id,
+      deviceName: device.name,
+      message: validatedData.message,
+      level: validatedData.level
+    }
 
-    logger.info(`Create Location request result successfully`)
+    await LogModel.create(payload)
+
+    logger.info(`Create Logger request result successfully`)
 
     return res.status(StatusCodes.CREATED).json(ResponseData.success({}))
   } catch (error) {

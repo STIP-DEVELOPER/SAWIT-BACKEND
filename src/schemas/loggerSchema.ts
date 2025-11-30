@@ -1,18 +1,18 @@
 import Joi from 'joi'
 import { jwtPayloadSchema } from './jwtPayloadSchema'
 
-export const createLocationSchema = Joi.object({
+export const createLoggerSchema = Joi.object({
   token: Joi.string().required(),
-  latitude: Joi.string().required(),
-  longitude: Joi.string().required()
+  message: Joi.string().required(),
+  level: Joi.string().valid('info', 'warning', 'error').required()
 })
 
-export const findDetailLocationSchema = Joi.object({
+export const findDetailLoggerSchema = Joi.object({
   jwtPayload: jwtPayloadSchema,
   id: Joi.string().required()
 })
 
-export const findAllLocationSchema = Joi.object({
+export const findAllLoggerSchema = Joi.object({
   jwtPayload: jwtPayloadSchema,
   page: Joi.string().optional(),
   size: Joi.string().optional(),
@@ -20,5 +20,5 @@ export const findAllLocationSchema = Joi.object({
   pagination: Joi.boolean().optional(),
   startDate: Joi.string().allow('').optional(),
   endDate: Joi.string().allow('').optional(),
-  status: Joi.string().valid('active', 'inactive', 'maintenance').optional()
+  level: Joi.string().valid('info', 'warning', 'error').optional()
 })

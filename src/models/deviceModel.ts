@@ -2,6 +2,7 @@ import { DataTypes } from 'sequelize'
 import { sequelize } from '../database/config'
 import { BaseModelFields } from '../database/baseModelFields'
 import { DeviceInstance } from '../interfaces/device/device.dto'
+import { LocationModel } from './locationModel'
 
 export const DeviceModel = sequelize.define<DeviceInstance>(
   'Device',
@@ -40,6 +41,7 @@ export const DeviceModel = sequelize.define<DeviceInstance>(
     },
     token: {
       type: DataTypes.STRING,
+      unique: true,
       allowNull: false,
       defaultValue: ''
     }
@@ -50,3 +52,15 @@ export const DeviceModel = sequelize.define<DeviceInstance>(
     underscored: true
   }
 )
+
+DeviceModel.hasMany(LocationModel, {
+  foreignKey: 'deviceId',
+  as: 'locations',
+  onDelete: 'CASCADE'
+})
+
+LocationModel.belongsTo(DeviceModel, {
+  foreignKey: 'deviceId',
+  as: 'device',
+  onDelete: 'CASCADE'
+})
